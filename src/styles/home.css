@@ -1,0 +1,59 @@
+.table {
+    max-width: 100%;
+    /* border-top: 3px solid #ebe0df; */
+    
+}
+
+th {
+    font-size: 14px;
+}
+
+/* th, td {
+    padding: 0 20px;
+} */
+
+img {
+    height: 15px;
+    width: 15px;
+}
+
+/* .link {
+    background-color: #ebe0df;
+    border-radius: 50%;
+    padding: 7px;
+    display: flex;
+} */
+
+.a-right {
+    text-align: right;
+}
+
+.a-left {
+    text-align: left;
+}
+
+.a-mid {
+    text-align: center;
+}
+
+.name {
+    width: 50%;
+    padding: 0 20px;
+}
+
+.link-row {
+    width: 20px;
+}
+
+.price{
+    width: 20px;
+    padding: 0 20px;
+}
+
+.sold{
+    width: 50px;
+}
+
+tr {
+    margin-right: 100em;
+}
