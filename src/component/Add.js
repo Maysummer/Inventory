@@ -9,7 +9,7 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
   const [cost_price, setCPrice] = useState('');
   const [mutti_selling_price, setMPrice] = useState('');
   const [insurance_unit_price, setIPrice] = useState('');
-  const [name, setHow] = useState('');
+  const [human_name, setHow] = useState('');
 
   const changeName = (e) => {
     setName(e.target.value);
@@ -38,7 +38,7 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
       cost_price,
       mutti_selling_price,
       insurance_unit_price,
-      name
+      human_name
     };
     func(val);
     clearState();
@@ -83,7 +83,7 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
       <br/>
       <label>
         How it's sold: <br/>
-        <select value={name} name="name" onChange={changeHow}>
+        <select value={human_name} name="name" onChange={changeHow}>
         <option>click</option>
         <option>CONSUMABLE</option>
         <option>TABLET</option>

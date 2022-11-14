@@ -31,8 +31,18 @@ export default function Home() {
   const addRows = (data) => {
     const totalProducts = products.length;
     data.id = totalProducts + 1;
+
+    const formVal = {
+      display_name: data.display_name,
+      walk_in_selling_price: data.walk_in_selling_price,
+      cost_price: data.cost_price,
+      mutti_selling_price: data.mutti_selling_price,
+      insurance_unit_price: data.insurance_unit_price,
+      unit_of_measure: {human_name: data.human_name}
+    }
+
     const updatedProductData = [...products];
-    updatedProductData.push(data);
+    updatedProductData.push(formVal);
     setProducts(updatedProductData);
   };
 
@@ -51,7 +61,7 @@ export default function Home() {
       cost_price: product.cost_price,
       mutti_selling_price: product.mutti_selling_price,
       insurance_unit_price: product.insurance_unit_price,
-      name: product.unit_of_measure?.human_name
+      unit_of_measure: {human_name: product.human_name}
     }
     setEditForm(formVal)
   }
@@ -62,11 +72,11 @@ export default function Home() {
     cost_price: "",
     mutti_selling_price: "",
     insurance_unit_price: "",
-    name: ""
+    human_name: ""
   })
   const handleEditForm = (e) => {
     e.preventDefault();
-    const cellName = e.target.getAttribute("name");
+    const cellName = e.target.name;
     const cellVal = e.target.value;
 
     const newFormData = { ...editForm};
@@ -84,7 +94,7 @@ export default function Home() {
       cost_price: editForm.cost_price,
       mutti_selling_price: editForm.mutti_selling_price,
       insurance_unit_price: editForm.insurance_unit_price,
-      name: editForm.unit_of_measure?.human_name
+      unit_of_measure: {human_name: editForm.human_name}
     }
     const newProd = [...products]
     const index = products.findIndex((product)=> product.id === editProdID)

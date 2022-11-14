@@ -28,22 +28,20 @@ const Edit = ({editForm, handleEditForm, handleCancel}) => {
                 <input type="number" name='insurance_unit_price' onChange={handleEditForm} value={editForm.insurance_unit_price}></input>
             </TableCell>
             <TableCell className='a-left sold'>
-                <select value={editForm.unit_of_measure?.human_name}>
-                <option>click</option>
-                <option name="CONSUMABLE" onChange={handleEditForm}>CONSUMABLE</option>
-                <option name="TABLET" onChange={handleEditForm}>TABLET</option>
-                <option name="SUSPENSION" onChange={handleEditForm}>SUSPENSION</option>
-                <option name="SYRUP" onChange={handleEditForm}>SYRUP</option>
-                <option name="GEL" onChange={handleEditForm}>GEL</option>
-                <option name="INFUSION" onChange={handleEditForm}>INFUSION</option>
+                <select value={editForm.human_name} name={"human_name"} onChange={handleEditForm}>
+                <option>Select an option</option>
+                <option name="CONSUMABLE">CONSUMABLE</option>
+                <option name="TABLET">TABLET</option>
+                <option name="SUSPENSION">SUSPENSION</option>
+                <option name="SYRUP">SYRUP</option>
+                <option name="GEL">GEL</option>
+                <option name="INFUSION">INFUSION</option>
             </select>
             </TableCell>
-            <TableCell>
+            <TableCell style={{display: "flex"}}>
                 <button type='submit'>Save</button>
                 <button type="button" onClick={handleCancel}>Cancel</button>
             </TableCell>
-            <TableCell><a href='#del-modal'><img src={del} /></a></TableCell>
-            <TableCell><a href='#edit-modal'><img src={edit} /></a></TableCell>
           </TableRow>
   )
 }
