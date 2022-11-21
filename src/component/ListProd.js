@@ -1,14 +1,7 @@
 import React from 'react'
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import link from '../link_icon.svg'
-import del from '../del-icon.png'
-import edit from '../edit-icon.png'
 
 
 export default function ListProd({ product, handleEdit, handleDelete }) {

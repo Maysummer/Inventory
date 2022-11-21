@@ -21,11 +21,14 @@ export default function Home() {
   const getProduct = async () => {
     const response = await fetch('https://run.mocky.io/v3/c9a84e20-f49e-4e58-8f9e-e1b9c211320e')
     const data = await response.json()
-    console.log(data.results)
-    setProducts(data.results) 
+    const displayProducts = data.results.map(obj => ({...obj, deleted:false, price: [{cost_price: obj.cost_price, timeStamp: new Date()}]}));
+    setProducts(displayProducts)
+    // console.log(finalProducts)
+    console.log(displayProducts)
+    // console.log(displayProducts.filter(obj => obj.deleted))
+    
   }
 
-  const onOpenModalEd = () => setOpenEd(true);
   const onCloseModalEd = () => setOpenEd(false);
 
   const addRows = (data) => {
@@ -38,7 +41,9 @@ export default function Home() {
       cost_price: data.cost_price,
       mutti_selling_price: data.mutti_selling_price,
       insurance_unit_price: data.insurance_unit_price,
-      unit_of_measure: {human_name: data.human_name}
+      unit_of_measure: {human_name: data.human_name},
+      fixed_price: [{cost_price: data.cost_price, timeStamp: new Date()}],
+      deleted: false
     }
 
     const updatedProductData = [...products];
@@ -61,7 +66,9 @@ export default function Home() {
       cost_price: product.cost_price,
       mutti_selling_price: product.mutti_selling_price,
       insurance_unit_price: product.insurance_unit_price,
-      unit_of_measure: {human_name: product.human_name}
+      unit_of_measure: {human_name: product.human_name},
+      fixed_price: [{cost_price: product.cost_price, timeStamp: new Date()}],
+      deleted: false
     }
     setEditForm(formVal)
   }
@@ -108,10 +115,17 @@ export default function Home() {
   }
 
   const handleDelete = (prodID) => {
+    console.log('display', prodID)
     const newProd = [...products]
     const index = products.findIndex((prod)=> prod.id === prodID)
-    newProd.splice(index, 1)
-    setProducts(newProd)
+    // newProd.splice(index, 1)
+    const deletedProd = newProd[index]
+    deletedProd.deleted = true
+    const finalProducts = newProd.filter(del => del.deleted === false)
+    setProducts(finalProducts)
+    products.price?.concat([{cost_price: deletedProd.cost_price}])
+    console.log(deletedProd)
+    console.log("deleted price: ", products.price)
   }
 
   useEffect(() => {
