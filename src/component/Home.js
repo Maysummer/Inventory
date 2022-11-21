@@ -70,6 +70,7 @@ export default function Home() {
       fixed_price: [{cost_price: product.cost_price, timeStamp: new Date()}],
       deleted: false
     }
+    products.price?.concat([{cost_price: formVal.cost_price}])
     setEditForm(formVal)
   }
 
