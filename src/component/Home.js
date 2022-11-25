@@ -12,6 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ListProd from './ListProd'
 import Edit from './Edit';
+// import { markAsDeleted } from '../lib/markAsDelete';
+import { markAsDeleted } from '../lib/markAsDelete';
 
 export default function Home() {
   const [products, setProducts] = useState([])
@@ -42,7 +44,7 @@ export default function Home() {
       mutti_selling_price: data.mutti_selling_price,
       insurance_unit_price: data.insurance_unit_price,
       unit_of_measure: {human_name: data.human_name},
-      fixed_price: [{cost_price: data.cost_price, timeStamp: new Date()}],
+      price: [{cost_price: data.cost_price, timeStamp: new Date()}],
       deleted: false
     }
 
@@ -67,11 +69,13 @@ export default function Home() {
       mutti_selling_price: product.mutti_selling_price,
       insurance_unit_price: product.insurance_unit_price,
       unit_of_measure: {human_name: product.human_name},
-      fixed_price: [{cost_price: product.cost_price, timeStamp: new Date()}],
+      price: [{cost_price: product.cost_price, timeStamp: new Date()}],
       deleted: false
     }
-    products.price?.concat([{cost_price: formVal.cost_price}])
+    product.price?.concat([{cost_price: formVal.price}])
     setEditForm(formVal)
+    console.log(product)
+    console.log(products)
   }
 
   const [editForm, setEditForm] = useState({
@@ -93,6 +97,32 @@ export default function Home() {
     setEditForm(newFormData)
   }
 
+  
+  // const editProduct = (product) => { 
+  //   const allProducts = [...products];
+  //   const updatedProducts = allProducts.map((obj) => {
+  //     if(obj.id === product.id){
+  //       return {
+  //         ...product,
+  //         id: product.id,
+  //         display_name: product.display_name, 
+  //         walk_in_selling_price: product.walk_in_selling_price, 
+  //         cost_price: product.cost_price,
+  //         insurance_unit_price: product.insurance_unit_price,
+  //         mutti_selling_price: product.mutti_selling_price, 
+  //         package: {form: product.package.form},
+  //         price: obj.price.concat([{cost_price: product.cost_price, timeStamp: new Date()}]),
+  //               };
+  //     }
+  //     return obj;
+  //   });
+  //   setProducts(updatedProducts);
+  //   // setShowEditDialog(false);
+    
+  // }
+
+
+  
   const handleEditFormSumbit = (e) => {
     e.preventDefault();
     const editedProduct = {
@@ -102,13 +132,18 @@ export default function Home() {
       cost_price: editForm.cost_price,
       mutti_selling_price: editForm.mutti_selling_price,
       insurance_unit_price: editForm.insurance_unit_price,
-      unit_of_measure: {human_name: editForm.human_name}
+      unit_of_measure: {human_name: editForm.human_name},
+      price: [{cost_price: editForm.cost_price, timeStamp: new Date()}],
+      deleted: false
     }
     const newProd = [...products]
     const index = products.findIndex((product)=> product.id === editProdID)
     newProd[index] = editedProduct;
+    // products[index].price?.concat([{cost_price: newProd[index].price}])
     setProducts(newProd)
     setEditProdID(null)
+    console.log(editedProduct)
+    console.log(products)
   }
 
   const handleCancel = () => {
@@ -117,16 +152,13 @@ export default function Home() {
 
   const handleDelete = (prodID) => {
     console.log('display', prodID)
-    const newProd = [...products]
-    const index = products.findIndex((prod)=> prod.id === prodID)
-    // newProd.splice(index, 1)
-    const deletedProd = newProd[index]
-    deletedProd.deleted = true
-    const finalProducts = newProd.filter(del => del.deleted === false)
-    setProducts(finalProducts)
-    products.price?.concat([{cost_price: deletedProd.cost_price}])
-    console.log(deletedProd)
-    console.log("deleted price: ", products.price)
+    setProducts(markAsDeleted(prodID, products))
+    console.log('display', prodID)
+    const finalProducts = products.filter(del => del.deleted === true)
+    finalProducts.map(data => (
+        console.log("deleted price: ", data?.price[0]?.cost_price)
+      ))
+    console.log(products)
   }
 
   useEffect(() => {
@@ -171,7 +203,7 @@ export default function Home() {
                   product={product}
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}/>
-              ) }
+              )}
             </Fragment>
             
           ))}

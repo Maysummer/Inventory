@@ -2,15 +2,13 @@ import React from 'react'
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import link from '../link_icon.svg'
-import del from '../del-icon.png'
-import edit from '../edit-icon.png'
 
-const Edit = ({editForm, handleEditForm, handleCancel}) => {
+const Edit = ({editForm, handleEditForm, handleCancel, editProduct}) => {
   return (
     <TableRow>
             {/* ?.toFixed(2) */}
             {/* unit_of_measure.human_name */}
-            <TableCell className='link'><a href='#modal'><img src={link} /></a></TableCell>
+            <TableCell className='link'><a href='#modal'><img src={link} alt=""/></a></TableCell>
             <TableCell className='a-left name'>
                 <input type="text" name='display_name' onChange={handleEditForm} value={editForm.display_name}></input>
             </TableCell>
