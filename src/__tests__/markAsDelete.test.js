@@ -1,8 +1,9 @@
-import { markAsDeleted } from "../lib/markAsDelete";
+// import { markAsDeleted } from "../lib/markAsDelete";
+import {markAsDeleted} from "../component/Home"
 
 describe("Deleting products", function (){
     it("should mark a selected product as deleted", function () {
-        const dummyProduct = {
+        const dummyProduct = [{
             id: 1,
             display_name: "FLAGYL",
             walk_in_selling_price: 60,
@@ -10,11 +11,11 @@ describe("Deleting products", function (){
             insurance_unit_price: 50,
             human_namme: "CONSUMABLE",
             deleted: false,
-        };
+        }];
 
-        const newProduct = markAsDeleted(dummyProduct);
+        const newProduct = markAsDeleted(1, dummyProduct);
 
-        expect(newProduct).toEqual({
+        expect(newProduct).toEqual([{
             id: 1,
             display_name: "FLAGYL",
             walk_in_selling_price: 60,
@@ -22,6 +23,6 @@ describe("Deleting products", function (){
             insurance_unit_price: 50,
             human_namme: "CONSUMABLE",
             deleted: true
-        });
+        }]);
     });
 })

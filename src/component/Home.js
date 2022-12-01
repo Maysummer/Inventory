@@ -12,8 +12,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ListProd from './ListProd'
 import Edit from './Edit';
-// import { markAsDeleted } from '../lib/markAsDelete';
-import { markAsDeleted } from '../lib/markAsDelete';
+import { editedProd } from '../lib/editProduct';
+
+export function  markAsDeleted (prodID, products) {
+  const newProd = [...products]
+  const index = products.findIndex((prod)=> prod.id === prodID)
+  const deletedProd = newProd[index]
+  deletedProd.deleted = true
+  // const finalProducts = newProd.filter(del => del.deleted === false)
+  return newProd
+}
+
 
 export default function Home() {
   const [products, setProducts] = useState([])
