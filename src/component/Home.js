@@ -12,14 +12,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ListProd from './ListProd'
 import Edit from './Edit';
-import { editedProd } from '../lib/editProduct';
 
 export function  markAsDeleted (prodID, products) {
   const newProd = [...products]
   const index = products.findIndex((prod)=> prod.id === prodID)
   const deletedProd = newProd[index]
   deletedProd.deleted = true
-  // const finalProducts = newProd.filter(del => del.deleted === false)
   return newProd
 }
 
@@ -77,14 +75,13 @@ export default function Home() {
       cost_price: product.cost_price,
       mutti_selling_price: product.mutti_selling_price,
       insurance_unit_price: product.insurance_unit_price,
-      unit_of_measure: {human_name: product.human_name},
+      unit_of_measure: product.unit_of_measure.human_name,
       price: [{cost_price: product.cost_price, timeStamp: new Date()}],
       deleted: false
     }
-    product.price?.concat([{cost_price: formVal.price}])
+    // product.price?.concat([{cost_price: formVal.price}])
     setEditForm(formVal)
-    console.log(product)
-    console.log(products)
+    console.log(product.unit_of_measure.human_name)
   }
 
   const [editForm, setEditForm] = useState({
@@ -93,19 +90,20 @@ export default function Home() {
     cost_price: "",
     mutti_selling_price: "",
     insurance_unit_price: "",
-    human_name: ""
+    human_name: "",
+    price: [{cost_price: products.cost_price, timeStamp: new Date()}],
   })
   const handleEditForm = (e) => {
     e.preventDefault();
     const cellName = e.target.name;
     const cellVal = e.target.value;
-
     const newFormData = { ...editForm};
+    console.log(newFormData[cellName])
     newFormData[cellName] = cellVal
 
     setEditForm(newFormData)
+    console.log(products)
   }
-
   
   // const editProduct = (product) => { 
   //   const allProducts = [...products];
@@ -142,17 +140,17 @@ export default function Home() {
       mutti_selling_price: editForm.mutti_selling_price,
       insurance_unit_price: editForm.insurance_unit_price,
       unit_of_measure: {human_name: editForm.human_name},
-      price: [{cost_price: editForm.cost_price, timeStamp: new Date()}],
+      price: editForm.price.concat([{cost_price: editForm.cost_price, timeStamp: new Date()}]),
       deleted: false
     }
+    console.log(editedProduct)
     const newProd = [...products]
     const index = products.findIndex((product)=> product.id === editProdID)
     newProd[index] = editedProduct;
     // products[index].price?.concat([{cost_price: newProd[index].price}])
     setProducts(newProd)
     setEditProdID(null)
-    console.log(editedProduct)
-    console.log(products)
+    
   }
 
   const handleCancel = () => {
@@ -160,14 +158,9 @@ export default function Home() {
   }
 
   const handleDelete = (prodID) => {
-    console.log('display', prodID)
     setProducts(markAsDeleted(prodID, products))
-    console.log('display', prodID)
-    const finalProducts = products.filter(del => del.deleted === true)
-    finalProducts.map(data => (
-        console.log("deleted price: ", data?.price[0]?.cost_price)
-      ))
-    console.log(products)
+    const deletedProducts = products.filter(del => del.deleted === true)
+    console.log("Deleted Products: \n", deletedProducts)
   }
 
   useEffect(() => {
@@ -200,8 +193,8 @@ export default function Home() {
           </TableRow>
         </TableHead>
         <TableBody className='tbody'>
-          {products.map((product, i) => (
-            <Fragment>
+          {products.filter(del => del.deleted === false).map((product, i) => (
+            <Fragment key={i}>
               {editProdID === product.id ? (
                 <Edit 
                 editForm={editForm} 
