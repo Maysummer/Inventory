@@ -1,4 +1,4 @@
-import React, { useState}from 'react'
+import React, { useEffect, useState}from 'react'
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import link from '../link_icon.svg'
@@ -14,7 +14,6 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
   const [openDel, setOpenDel] = useState(false)
   const onOpenDelModal = () => setOpenDel(true)
   const onCloseDelModal = () => setOpenDel(false)
-
   return (
     <TableRow>
             {/* ?.toFixed(2) */}

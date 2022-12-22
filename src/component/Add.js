@@ -96,7 +96,7 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
       <br/>
       <div style={{ width: '100%', marginTop: '2em'}}>
       <button onClick={(e) =>{
-        transferValue(e)
+        transferValue(e);
         onCloseModalAdd()
         }}> Submit </button>
         <button onClick={onCloseModalAdd} style={{marginLeft: '1em'}}>No</button>

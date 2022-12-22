@@ -3,7 +3,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import link from '../link_icon.svg'
 
-const Edit = ({editForm, handleEditForm, handleCancel, editProduct}) => {
+const Edit = ({editForm, handleEditForm, handleCancel, editProduct, product}) => {
   return (
     <TableRow>
             {/* ?.toFixed(2) */}
@@ -16,7 +16,7 @@ const Edit = ({editForm, handleEditForm, handleCancel, editProduct}) => {
             <TableCell className='a-right price'>
                 <input type="number" name='walk_in_selling_price' onChange={handleEditForm} value={editForm.walk_in_selling_price}></input>
             </TableCell>
-            <TableCell className='a-right price'>
+            <TableCell className='a-right price' defaultValue={product.cost_price}>
                 <input type="number" name='cost_price' onChange={handleEditForm} value={editForm.cost_price}></input>
             </TableCell>
             <TableCell className='a-right price'>
@@ -26,7 +26,7 @@ const Edit = ({editForm, handleEditForm, handleCancel, editProduct}) => {
                 <input type="number" name='insurance_unit_price' onChange={handleEditForm} value={editForm.insurance_unit_price}></input>
             </TableCell>
             <TableCell className='a-left sold'>
-                <select name="human_name" onChange={handleEditForm}>
+                <select defaultValue={product.unit_of_measure?.human_name} name="human_name" onChange={handleEditForm}>
                 <option>Select an option</option>
                 <option value={editForm.human_name}>CONSUMABLE</option>
                 <option value={editForm.human_name}>TABLET</option>
@@ -37,7 +37,7 @@ const Edit = ({editForm, handleEditForm, handleCancel, editProduct}) => {
             </select>
             </TableCell>
             <TableCell style={{display: "flex"}}>
-                <button type='submit'>Save</button>
+                <button type='submit' style={{marginRight: '1em'}}>Save</button>
                 <button type="button" onClick={handleCancel}>Cancel</button>
             </TableCell>
           </TableRow>
