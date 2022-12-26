@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import '../styles/home.css'
 import 'react-responsive-modal/styles.css';
-import { Modal } from 'react-responsive-modal';
 import Add from './Add'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -25,21 +24,14 @@ export function  markAsDeleted (prodID, products) {
 export default function Home() {
   const [products, setProducts] = useState([])
   const [openAdd, setOpenAdd] = useState(false)
-  const [openEd, setOpenEd] = useState(false);
 
   const getProduct = async () => {
     const response = await fetch('https://run.mocky.io/v3/c9a84e20-f49e-4e58-8f9e-e1b9c211320e')
     const data = await response.json()
-    console.log({data})
     const displayProducts = data.results.map(obj => ({...obj, deleted:false, price: [{cost_price: obj.cost_price, timeStamp: new Date()}]}));
     setProducts(displayProducts)
-    // console.log(finalProducts)
     console.log(displayProducts)
-    // console.log(displayProducts.filter(obj => obj.deleted))
-    
   }
-  console.log({products})
-  const onCloseModalEd = () => setOpenEd(false);
 
   const addRows = (data) => {
     const totalProducts = products.length;
@@ -82,7 +74,6 @@ export default function Home() {
     }
     // product.price?.concat([{cost_price: formVal.price}])
     setEditForm(formVal)
-    console.log(product.unit_of_measure.human_name)
   }
   
   const [editForm, setEditForm] = useState({
@@ -94,56 +85,19 @@ export default function Home() {
     human_name: "",
     // price: {cost_price: costPrice, timeStamp: new Date()},
   })
-  let price = []
   const handleEditForm = (e) => {
     e.preventDefault();
     const cellName = e.target.name;
     const cellVal = e.target.value;
     const newFormData = { ...editForm};
-    console.log(newFormData)
     newFormData[cellName] = cellVal
-    console.log(editForm)
 
     setEditForm(newFormData)
-    console.log({newFormData})
-    price = [{cost_price: newFormData.cost_price, timeStamp: new Date()}]
   }
-  console.log({editForm})
-
-  const [costPrice, setCostPrice] = useState(editForm.cost_price)
-  console.log({editForm})
-  console.log({costPrice})
-  
-  // console.log({price})
-  
-  // const editProduct = (product) => { 
-  //   const allProducts = [...products];
-  //   const updatedProducts = allProducts.map((obj) => {
-  //     if(obj.id === product.id){
-  //       return {
-  //         ...product,
-  //         id: product.id,
-  //         display_name: product.display_name, 
-  //         walk_in_selling_price: product.walk_in_selling_price, 
-  //         cost_price: product.cost_price,
-  //         insurance_unit_price: product.insurance_unit_price,
-  //         mutti_selling_price: product.mutti_selling_price, 
-  //         package: {form: product.package.form},
-  //         price: obj.price.concat([{cost_price: product.cost_price, timeStamp: new Date()}]),
-  //               };
-  //     }
-  //     return obj;
-  //   });
-  //   setProducts(updatedProducts);
-  //   // setShowEditDialog(false);
-    
-  // }
-
-
   
   const handleEditFormSumbit = (e) => {
     e.preventDefault();
-    price.push({cost_price: editForm.cost_price, timeStamp: new Date()})
+    const index = products.findIndex((product)=> product.id === editProdID)
     const editedProduct = {
       id: editProdID,
       display_name: editForm.display_name,
@@ -152,16 +106,15 @@ export default function Home() {
       mutti_selling_price: editForm.mutti_selling_price,
       insurance_unit_price: editForm.insurance_unit_price,
       unit_of_measure: {human_name: editForm.human_name},
-      // price: editForm.price.push({cost_price: editForm.cost_price, timeStamp: new Date()}),
-      price: price,
+      price: [
+        ...products[index].price, 
+        {cost_price: editForm.cost_price, timeStamp: new Date()}
+        ],
       deleted: false
     }
-    
     console.log(editedProduct)
     const newProd = [...products]
-    const index = products.findIndex((product)=> product.id === editProdID)
     newProd[index] = editedProduct;
-    // products[index].price?.concat([{cost_price: newProd[index].price}])
     setProducts(newProd)
     setEditProdID(null)
     
@@ -184,10 +137,6 @@ export default function Home() {
     <div>
       <div className='edit-modal'>
       <button onClick={onOpenModalAdd} style={{float:"right"}}>Add Product</button>
-        {/* <Modal open={openEd} onClose={onCloseModalEd} center>
-          <h3>Edit</h3>
-          <button>Save</button>
-        </Modal> */}
       </div>
       <form onSubmit={handleEditFormSumbit}>
       <TableContainer component={Paper} className='table'>
@@ -222,10 +171,8 @@ export default function Home() {
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}/>
                 </>
-                
               )}
             </Fragment>
-            
           ))}
         </TableBody>
       </Table>

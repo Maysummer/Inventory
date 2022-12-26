@@ -28,12 +28,12 @@ const Edit = ({editForm, handleEditForm, handleCancel, editProduct, product}) =>
             <TableCell className='a-left sold'>
                 <select defaultValue={product.unit_of_measure?.human_name} name="human_name" onChange={handleEditForm}>
                 <option>Select an option</option>
-                <option value={editForm.human_name}>CONSUMABLE</option>
-                <option value={editForm.human_name}>TABLET</option>
-                <option value={editForm.human_name}>SUSPENSION</option>
-                <option value={editForm.human_name}>SYRUP</option>
-                <option value={editForm.human_name}>GEL</option>
-                <option value={editForm.human_name}>INFUSION</option>
+                <option value="CONSUMABLE">CONSUMABLE</option>
+                <option value="TABLET">TABLET</option>
+                <option value="SUSPENSION">SUSPENSION</option>
+                <option value="SYRUP">SYRUP</option>
+                <option value="GEL">GEL</option>
+                <option value="INFUSION">INFUSION</option>
             </select>
             </TableCell>
             <TableCell style={{display: "flex"}}>
