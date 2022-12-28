@@ -6,8 +6,6 @@ import link from '../link_icon.svg'
 const Edit = ({editForm, handleEditForm, handleCancel, editProduct, product}) => {
   return (
     <TableRow>
-            {/* ?.toFixed(2) */}
-            {/* unit_of_measure.human_name */}
             <TableCell className='link'><a href='#modal'><img src={link} alt=""/></a></TableCell>
             <TableCell className='a-left name'>
                 <input type="text" name='display_name' onChange={handleEditForm} value={editForm.display_name}></input>

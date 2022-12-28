@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ListProd from './ListProd'
 import Edit from './Edit';
+import EditProductInArray from '../lib/EditProduct'
 
 export function  markAsDeleted (prodID, products) {
   const newProd = [...products]
@@ -72,7 +73,6 @@ export default function Home() {
       price: [{cost_price: product.cost_price, timeStamp: new Date()}],
       deleted: false
     }
-    // product.price?.concat([{cost_price: formVal.price}])
     setEditForm(formVal)
   }
   
@@ -83,7 +83,6 @@ export default function Home() {
     mutti_selling_price: "",
     insurance_unit_price: "",
     human_name: "",
-    // price: {cost_price: costPrice, timeStamp: new Date()},
   })
   const handleEditForm = (e) => {
     e.preventDefault();
@@ -91,7 +90,6 @@ export default function Home() {
     const cellVal = e.target.value;
     const newFormData = { ...editForm};
     newFormData[cellName] = cellVal
-
     setEditForm(newFormData)
   }
   
@@ -113,11 +111,12 @@ export default function Home() {
       deleted: false
     }
     console.log(editedProduct)
-    const newProd = [...products]
-    newProd[index] = editedProduct;
-    setProducts(newProd)
+    const newEdit = EditProductInArray(editedProduct, products)
+    // const newProd = [...products]
+    // newProd[index] = editedProduct;
+    // setProducts(newProd)
+    setProducts(newEdit)
     setEditProdID(null)
-    
   }
 
   const handleCancel = () => {
@@ -165,12 +164,10 @@ export default function Home() {
                 handleCancel={handleCancel}
                 product={product}/>
               ) : (
-                <>
-                  <ListProd 
-                  product={product}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}/>
-                </>
+                <ListProd 
+                product={product}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}/>
               )}
             </Fragment>
           ))}

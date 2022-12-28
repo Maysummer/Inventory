@@ -99,7 +99,7 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
         transferValue(e);
         onCloseModalAdd()
         }}> Submit </button>
-        <button onClick={onCloseModalAdd} style={{marginLeft: '1em'}}>No</button>
+        <button onClick={onCloseModalAdd} style={{marginLeft: '1em'}}>Cancel</button>
       </div>
       </Modal>
     </div>
