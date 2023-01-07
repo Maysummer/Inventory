@@ -1,9 +1,16 @@
 import React from 'react'
+import { useState } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import link from '../link_icon.svg'
 
 const Edit = ({editForm, handleEditForm, handleCancel, editProduct, product}) => {
+    const [selectVal, setSelectVal] = useState(product.unit_of_measure?.human_name);
+
+    const handleChange = (event) => {
+        setSelectVal(event.target.value)
+    }
+
   return (
     <TableRow>
             <TableCell className='link'><a href='#modal'><img src={link} alt=""/></a></TableCell>
@@ -24,7 +31,9 @@ const Edit = ({editForm, handleEditForm, handleCancel, editProduct, product}) =>
                 <input type="number" name='insurance_unit_price' onChange={handleEditForm} value={editForm.insurance_unit_price}></input>
             </TableCell>
             <TableCell className='a-left sold'>
-                <select defaultValue={product.unit_of_measure?.human_name} name="human_name" onChange={handleEditForm}>
+                <select defaultValue={product.unit_of_measure?.human_name} value={selectVal} name="human_name" onChange={(e)=>{
+                    handleChange()
+                    handleEditForm()}}>
                 <option>Select an option</option>
                 <option value="CONSUMABLE">CONSUMABLE</option>
                 <option value="TABLET">TABLET</option>

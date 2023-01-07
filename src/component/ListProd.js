@@ -37,12 +37,31 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
             <Modal open={open} onClose={onCloseModal} center>
             <div style={{margin: '2em 2em'}}>
             <div style={{display: 'grid', gridTemplateColumns: 'auto auto', gridGap: '1em', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-              <p style={{fontSize: '1.5em', fontWeight: 'bolder'}}>Display Name</p>
-              <p >{product.display_name}</p>
+              <div>
+                <p style={{fontSize: '1em', fontWeight: 'bolder'}}>Display Name</p>
+                <p >{product.display_name}</p>
+              </div>
+              <div>
+                <p style={{fontSize: '1em', fontWeight: 'bolder'}}>Display Name</p>
+                <p >{product.display_name}</p>
+              </div>
+              <div>
+                <p style={{fontSize: '1em', fontWeight: 'bolder'}}>Display Name</p>
+                <p >{product.display_name}</p>
+              </div>
+              <div>
+                <p style={{fontSize: '1em', fontWeight: 'bolder'}}>Display Name</p>
+                <p >{product.display_name}</p>
+              </div>
+              <div>
+                <p style={{fontSize: '1em', fontWeight: 'bolder'}}>Display Name</p>
+                <p >{product.display_name}</p>
+              </div>
             </div>
             </div>
             </Modal>
 
+            {/* for putting edit in a modal */}
             <Modal open={openEdit} onClose={onCloseEditModal} center>
               <Edit />
             </Modal>
@@ -61,7 +80,6 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
               Yes
             </button>
             </div>
-            
             </Modal>
           </TableRow>
   )

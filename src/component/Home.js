@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import '../styles/home.css'
 import 'react-responsive-modal/styles.css';
 import Add from './Add'
+import { CircularProgress } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -132,8 +133,11 @@ export default function Home() {
   useEffect(() => {
     getProduct()
   }, [])
+  console.log(products)
   return (
     <div>
+      {products.length >= 1 ?
+      <>
       <div className='edit-modal'>
       <button onClick={onOpenModalAdd} style={{float:"right"}}>Add Product</button>
       </div>
@@ -179,6 +183,13 @@ export default function Home() {
         onCloseModalAdd={onCloseModalAdd}
         openAdd={openAdd}
         func={addRows} />
-      </div>
+        </>
+        : <CircularProgress
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+        }}/>}
+    </div>
   )
 }

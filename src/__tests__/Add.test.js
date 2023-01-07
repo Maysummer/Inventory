@@ -30,7 +30,7 @@ describe("Add modal", () => {
       expect(onCloseModalAddMock).toBeCalledTimes(1);
     });
 
-    it("texts should be visible on the screen", () => {
+    it("should ensure texts are visible on the modal screen", () => {
       const onCloseModalAddMock = jest.fn();
       render(
         <Add

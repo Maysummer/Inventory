@@ -1,7 +1,7 @@
 import EditProductInArray from "../lib/EditProduct";
 
 describe("editing products", function() {
-    it("should edit a selected product", function() {
+    it("should replace old object with new", function() {
         const editedProduct = [
             {
                 id: 5,
