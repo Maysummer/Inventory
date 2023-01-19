@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import "../styles/add.css"
+import { useDispatch } from "react-redux";
+import { addProduct } from "../redux/inventorySlicer";
 
 export default function Add({func, onCloseModalAdd, openAdd}) {
+  const dispatch = useDispatch();
+
   const [display_name, setName] = useState('');
   const [walk_in_selling_price, setSPrice] = useState('');
   const [cost_price, setCPrice] = useState('');
   const [mutti_selling_price, setMPrice] = useState('');
   const [insurance_unit_price, setIPrice] = useState('');
-  const [human_name, setHow] = useState('');
+  const [unit_of_measure, setHow] = useState('');
 
   const changeName = (e) => {
     setName(e.target.value);
@@ -32,15 +36,27 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
 
   const transferValue = (e) => {
     e.preventDefault();
-    const val = {
-      display_name,
-      walk_in_selling_price,
-      cost_price,
-      mutti_selling_price,
-      insurance_unit_price,
-      human_name
-    };
-    func(val);
+    // const val = {
+      // display_name,
+      // walk_in_selling_price,
+      // cost_price,
+      // mutti_selling_price,
+      // insurance_unit_price,
+      // human_name
+    // };
+    if(display_name){
+    dispatch(
+      addProduct({
+      display_name: display_name,
+      walk_in_selling_price: walk_in_selling_price,
+      cost_price: cost_price,
+      mutti_selling_price: mutti_selling_price,
+      insurance_unit_price: insurance_unit_price,
+      unit_of_measure: unit_of_measure,
+      })
+    );
+    }
+    // func(val);
     clearState();
   };
 
@@ -83,7 +99,7 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
       <br/>
       <label>
         How it's sold: <br/>
-        <select value={human_name} name="name" onChange={changeHow}>
+        <select value={unit_of_measure} name="name" onChange={changeHow}>
         <option>click</option>
         <option>CONSUMABLE</option>
         <option>TABLET</option>

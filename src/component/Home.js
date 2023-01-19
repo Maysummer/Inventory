@@ -13,30 +13,36 @@ import Paper from '@mui/material/Paper';
 import ListProd from './ListProd'
 import Edit from './Edit';
 import EditProductInArray from '../lib/EditProduct'
+import { useDispatch, useSelector } from 'react-redux';
+import { setProduct, delProduct } from '../redux/inventorySlicer';
 
 export function  markAsDeleted (prodID, products) {
-  const newProd = [...products]
-  const index = products.findIndex((prod)=> prod.id === prodID)
-  const deletedProd = newProd[index]
-  deletedProd.deleted = true
-  return newProd
+  // const newProd = [...products]
+  // const index = products.findIndex((prod)=> prod.id === prodID)
+  // const deletedProd = newProd[index]
+  // deletedProd.deleted = true
+  // return newProd
 }
 
 
 export default function Home() {
-  const [products, setProducts] = useState([])
+  const dispatch = useDispatch();
+  const prods = useSelector(state => state.inventory.products)
+
+  // const [products, setProducts] = useState([])
   const [openAdd, setOpenAdd] = useState(false)
 
   const getProduct = async () => {
     const response = await fetch('https://run.mocky.io/v3/c9a84e20-f49e-4e58-8f9e-e1b9c211320e')
     const data = await response.json()
     const displayProducts = data.results.map(obj => ({...obj, deleted:false, price: [{cost_price: obj.cost_price, timeStamp: new Date()}]}));
-    setProducts(displayProducts)
+    dispatch(setProduct(displayProducts))
+    // setProducts(displayProducts)
     console.log(displayProducts)
   }
 
   const addRows = (data) => {
-    const totalProducts = products.length;
+    const totalProducts = prods.length;
     data.id = totalProducts + 1;
 
     const formVal = {
@@ -50,9 +56,9 @@ export default function Home() {
       deleted: false
     }
 
-    const updatedProductData = [...products];
+    const updatedProductData = [...prods];
     updatedProductData.push(formVal);
-    setProducts(updatedProductData);
+    dispatch(setProduct(updatedProductData));
   };
 
   const onOpenModalAdd = () => setOpenAdd(true);
@@ -96,7 +102,7 @@ export default function Home() {
   
   const handleEditFormSumbit = (e) => {
     e.preventDefault();
-    const index = products.findIndex((product)=> product.id === editProdID)
+    const index = prods.findIndex((product)=> product.id === editProdID)
     const editedProduct = {
       id: editProdID,
       display_name: editForm.display_name,
@@ -106,17 +112,17 @@ export default function Home() {
       insurance_unit_price: editForm.insurance_unit_price,
       unit_of_measure: {human_name: editForm.human_name},
       price: [
-        ...products[index].price, 
+        ...prods[index].price, 
         {cost_price: editForm.cost_price, timeStamp: new Date()}
         ],
       deleted: false
     }
     console.log(editedProduct)
-    const newEdit = EditProductInArray(editedProduct, products)
+    const newEdit = EditProductInArray(editedProduct, prods)
     // const newProd = [...products]
     // newProd[index] = editedProduct;
     // setProducts(newProd)
-    setProducts(newEdit)
+    setProduct(newEdit)
     setEditProdID(null)
   }
 
@@ -124,22 +130,31 @@ export default function Home() {
     setEditProdID(null)
   }
 
+  function  markAsDeleted (prodID, products) {
+    const newProd = [...products]
+    const index = products.findIndex((prod)=> prod.id === prodID)
+    const deletedProd = newProd[index]
+    deletedProd.deleted = true
+    return newProd
+  }
+
   const handleDelete = (prodID) => {
-    setProducts(markAsDeleted(prodID, products))
-    const deletedProducts = products.filter(del => del.deleted === true)
-    console.log("Deleted Products: \n", deletedProducts)
+    setProduct(markAsDeleted(prodID, prods))
+    // const deletedProducts = prods.filter(del => del.deleted === true)
+    // console.log("Deleted Products: \n", deletedProducts)
+    dispatch(delProduct(prodID))
   }
 
   useEffect(() => {
     getProduct()
-  }, [])
-  console.log(products)
+  }, []);
+  console.log(prods)
   return (
     <div>
-      {products.length >= 1 ?
+      {prods.length >= 1 ?
       <>
       <div className='edit-modal'>
-      <button onClick={onOpenModalAdd} style={{float:"right"}}>Add Product</button>
+      <button onClick={onOpenModalAdd} style={{float:"right", marginTop:"1em"}}>Add Product</button>
       </div>
       <form onSubmit={handleEditFormSumbit}>
       <TableContainer component={Paper} className='table'>
@@ -159,17 +174,17 @@ export default function Home() {
           </TableRow>
         </TableHead>
         <TableBody className='tbody'>
-          {products.filter(del => del.deleted === false).map((product, i) => (
+          {prods.filter(del => del.deleted === false).map((prods, i) => (
             <Fragment key={i}>
-              {editProdID === product.id ? (
+              {editProdID === prods.id ? (
                 <Edit 
                 editForm={editForm} 
                 handleEditForm={handleEditForm}
                 handleCancel={handleCancel}
-                product={product}/>
+                product={prods}/>
               ) : (
                 <ListProd 
-                product={product}
+                product={prods}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}/>
               )}
