@@ -5,7 +5,7 @@ import "../styles/add.css"
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/inventorySlicer";
 
-export default function Add({func, onCloseModalAdd, openAdd}) {
+export default function Add({onCloseModalAdd, openAdd}) {
   const dispatch = useDispatch();
 
   const [display_name, setName] = useState('');
@@ -52,7 +52,7 @@ export default function Add({func, onCloseModalAdd, openAdd}) {
       cost_price: cost_price,
       mutti_selling_price: mutti_selling_price,
       insurance_unit_price: insurance_unit_price,
-      unit_of_measure: unit_of_measure,
+      unit_of_measure: {human_name: unit_of_measure},
       })
     );
     }

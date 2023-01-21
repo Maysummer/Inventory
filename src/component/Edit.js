@@ -31,7 +31,7 @@ const Edit = ({editForm, handleEditForm, handleCancel, editProduct, product}) =>
                 <input type="number" name='insurance_unit_price' onChange={handleEditForm} value={editForm.insurance_unit_price}></input>
             </TableCell>
             <TableCell className='a-left sold'>
-                <select defaultValue={product.unit_of_measure?.human_name} value={selectVal} name="human_name" onChange={(e)=>{
+                <select defaultValue={product.unit_of_measure?.human_name} value={editForm.unit_of_measure?.human_name} name="human_name" onChange={(e)=>{
                     handleChange()
                     handleEditForm()}}>
                 <option>Select an option</option>
