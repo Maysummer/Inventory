@@ -12,7 +12,7 @@ export default function EditProductInArray(product, products = []) {
           mutti_selling_price: Number(product.mutti_selling_price).toFixed(2),
           unit_of_measure: { human_name: product.unit_of_measure.human_name },
           price: obj.price.concat([
-            { cost_price: product.cost_price, timeStamp: new Date() },
+            { cost_price: Number(product.cost_price), timeStamp: new Date() },
           ]),
         };
         spreadProducts[index] = obj;

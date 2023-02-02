@@ -32,6 +32,6 @@ describe("editing products", function() {
             }
         ];
         const editedArr = EditProductInArray(editedProduct, dummyProducts)
-        expect(editedArr).toContainEqual(editedProduct)
+        expect(editedArr).toContain(editedProduct)
     });
 })
