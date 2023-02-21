@@ -1,3 +1,53 @@
+.add-input {
+    margin-bottom: 10px;
+}
+
 label {
-    width: 30px;
+    font-size: 14px;
+}
+
+.react-responsive-modal-modal {
+    width: 20em;
+    background-color: hsl(240, 25%, 92%);
+    border-radius: 5px;
+}
+
+input, select {
+    width: 99%;
+    background-color: hsl(60, 33%, 99%);
+    border: none;
+    height: 30px;
+    border-radius: 3px;
+    box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);   
+}
+
+.but-cancel {
+    margin-left: 2em;
+    width: 90px;
+    padding: 7px;
+    background-color: #E25260;
+    border: none;
+    border-radius: 3px;
+    color: hsl(0, 33%, 99%);
+    box-shadow: 0 1px 3px hsl(230, 13%, 35%);
+}
+
+.but-submit {
+    width: 90px;
+    padding: 7px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px hsl(230, 13%, 35%);
+}
+
+.add-modal-buttons :active {
+    box-shadow: none;
+}
+
+.add-modal-buttons {
+    margin-top: 1em;
+}
+
+.add-modal-buttons :hover {
+    cursor: pointer;
 }

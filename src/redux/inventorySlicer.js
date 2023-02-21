@@ -11,7 +11,6 @@ export const inventorySlice = createSlice({
   reducers: {
     setProduct: (state, action) => {
       state.products = action.payload;
-      console.log(state.products);
     },
     delProduct: (state, action) => {
       const newProd = markAsDeleted(action.payload, state.products);
@@ -31,17 +30,15 @@ export const inventorySlice = createSlice({
         ],
         deleted: false,
       };
-      state.products.push(newProduct);
+      state.products = [newProduct, ...state.products]
     },
     editProduct: (state, action) => {
-      //   const newProd = [...state.products];
-      //   const index = state.products.findIndex(
-      //     (prod) => prod.id === action.payload.id
-      //   );
-      //   newProd[index] = action.payload;
-      //   state.products = newProd;
-        const newEdit = EditProductInArray(action.payload, state.products);
-        state.products = newEdit;
+      const index = state.products.findIndex(
+        (product) => product.id === action.payload.id
+      );
+      const newEdit = EditProductInArray(index, action.payload, state.products);
+      console.log(newEdit)
+      state.products = newEdit;
     },
   },
 });

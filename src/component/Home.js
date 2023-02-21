@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import "../styles/home.css";
 import "react-responsive-modal/styles.css";
 import Add from "./Add";
@@ -27,7 +27,7 @@ export function markAsDeleted(prodID, products) {
 export default function Home() {
   const dispatch = useDispatch();
   const prods = useSelector((state) => state.inventory.products);
-  const [openAdd, setOpenAdd] = useState(false);
+  const dataFetchedRef = useRef(false);
 
   const getProduct = async () => {
     const response = await fetch(
@@ -43,26 +43,7 @@ export default function Home() {
     console.log(displayProducts);
   };
 
-  // const addRows = (data) => {
-  //   const totalProducts = prods.length;
-  //   data.id = totalProducts + 1;
-
-  //   const formVal = {
-  //     display_name: data.display_name,
-  //     walk_in_selling_price: data.walk_in_selling_price,
-  //     cost_price: data.cost_price,
-  //     mutti_selling_price: data.mutti_selling_price,
-  //     insurance_unit_price: data.insurance_unit_price,
-  //     unit_of_measure: { human_name: data.human_name },
-  //     price: [{ cost_price: data.cost_price, timeStamp: new Date() }],
-  //     deleted: false,
-  //   };
-
-  //   const updatedProductData = [...prods];
-  //   updatedProductData.push(formVal);
-  //   dispatch(setProduct(updatedProductData));
-  // };
-
+  const [openAdd, setOpenAdd] = useState(false);
   const onOpenModalAdd = () => setOpenAdd(true);
   const onCloseModalAdd = () => setOpenAdd(false);
 
@@ -78,7 +59,7 @@ export default function Home() {
       cost_price: product.cost_price,
       mutti_selling_price: product.mutti_selling_price,
       insurance_unit_price: product.insurance_unit_price,
-      unit_of_measure: product.unit_of_measure.human_name,
+      human_name: product.unit_of_measure.human_name,
       price: [{ cost_price: product.cost_price, timeStamp: new Date() }],
       deleted: false,
     };
@@ -93,13 +74,15 @@ export default function Home() {
     insurance_unit_price: "",
     human_name: "",
   });
+  
   const handleEditForm = (e) => {
     e.preventDefault();
-    const cellName = e.target.name;
-    const cellVal = e.target.value;
-    const newFormData = { ...editForm };
-    newFormData[cellName] = cellVal;
-    setEditForm(newFormData);
+    setEditForm(prevFormData => {
+      return {
+        ...prevFormData,
+        [e.target.name]: e.target.value
+      }
+    })
   };
 
   const handleEditFormSumbit = (e) => {
@@ -120,12 +103,7 @@ export default function Home() {
       deleted: false,
     };
     console.log(editedProduct);
-    const newEdit = EditProductInArray(editedProduct, prods);
     dispatch(editProduct(editedProduct));
-    // const newProd = [...products]
-    // newProd[index] = editedProduct;
-    // setProducts(newProd)
-    setProduct(newEdit);
     setEditProdID(null);
   };
 
@@ -133,33 +111,25 @@ export default function Home() {
     setEditProdID(null);
   };
 
-  // function markAsDeleted(prodID, products) {
-  //   const newProd = [...products];
-  //   const index = products.findIndex((prod) => prod.id === prodID);
-  //   const deletedProd = newProd[index];
-  //   deletedProd.deleted = true;
-  //   return newProd;
-  // }
-
   const handleDelete = (prodID) => {
-    // setProduct(markAsDeleted(prodID, prods));
-    // const deletedProducts = prods.filter(del => del.deleted === true)
-    // console.log("Deleted Products: \n", deletedProducts)
     dispatch(delProduct(prodID));
   };
 
   useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
     getProduct();
   }, []);
-  console.log(prods);
+
   return (
     <div>
       {prods.length >= 1 ? (
         <>
-          <div className="edit-modal">
+          <h2 style={{ textAlign: "center" }}>Product Inventory</h2>
+          <div className="add-modal">
             <button
+              className="add-button"
               onClick={onOpenModalAdd}
-              style={{ float: "right", marginTop: "1em" }}
             >
               Add Product
             </button>
@@ -168,25 +138,59 @@ export default function Home() {
             <TableContainer component={Paper} className="table">
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
-                  <TableRow>
+                  <TableRow className="table-header">
                     <TableCell className="link-row"></TableCell>
-                    <TableCell className="a-left name">Product Name</TableCell>
+                    <TableCell
+                      className="a-left name"
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      Product Name
+                    </TableCell>
                     <TableCell className="a-mid"></TableCell>
-                    <TableCell className="a-right price">
+                    <TableCell
+                      className="a-right price"
+                      style={{
+                        color: "white",
+                      }}
+                    >
                       Selling Price (GHS)
                     </TableCell>
-                    <TableCell className="a-right price">
+                    <TableCell
+                      className="a-right price"
+                      style={{
+                        color: "white",
+                      }}
+                    >
                       Cost Price (GHS)
                     </TableCell>
-                    <TableCell className="a-right price">
+                    <TableCell
+                      className="a-right price"
+                      style={{
+                        color: "white",
+                      }}
+                    >
                       Mutti Price (GHS)
                     </TableCell>
-                    <TableCell className="a-right price">
+                    <TableCell
+                      className="a-right price"
+                      style={{
+                        color: "white",
+                      }}
+                    >
                       Insurance Price (GHS)
                     </TableCell>
-                    <TableCell className="a-left sold">How it's sold</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
+                    <TableCell
+                      className="a-left sold"
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      How it's sold
+                    </TableCell>
+                    <TableCell className="icon-edit"></TableCell>
+                    <TableCell className="icon-del"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody className="tbody">
@@ -217,7 +221,6 @@ export default function Home() {
           <Add
             onCloseModalAdd={onCloseModalAdd}
             openAdd={openAdd}
-            // func={addRows}
           />
         </>
       ) : (
@@ -226,7 +229,7 @@ export default function Home() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            color: "orange",
+            color: "hsl(230, 13%, 35%)",
           }}
         />
       )}

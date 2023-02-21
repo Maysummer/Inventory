@@ -31,7 +31,7 @@ describe("editing products", function() {
             human_name: {unit_of_measure: "SUSPENSION"}
             }
         ];
-        const editedArr = EditProductInArray(editedProduct, dummyProducts)
+        const editedArr = EditProductInArray(0, editedProduct, dummyProducts)
         expect(editedArr).toContain(editedProduct)
     });
 })

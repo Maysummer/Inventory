@@ -1,0 +1,6 @@
+.ebutton :hover {
+    background-color: hsl(230, 13%, 35%);
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+}
