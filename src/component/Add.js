@@ -125,6 +125,9 @@ export default function Add({ onCloseModalAdd, openAdd }) {
         </label>
         <br />
         <div className="add-modal-buttons">
+          <button onClick={onCloseModalAdd} className="but-cancel">
+            Cancel
+          </button>
           <button
             className="but-submit"
             onClick={(e) => {
@@ -133,9 +136,6 @@ export default function Add({ onCloseModalAdd, openAdd }) {
             }}
           >
             Submit
-          </button>
-          <button onClick={onCloseModalAdd} className="but-cancel">
-            Cancel
           </button>
         </div>
       </Modal>

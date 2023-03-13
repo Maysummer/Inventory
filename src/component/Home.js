@@ -12,7 +12,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ListProd from "./ListProd";
 import Edit from "./Edit";
-import EditProductInArray from "../lib/EditProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { setProduct, delProduct, editProduct } from "../redux/inventorySlicer";
 

@@ -18,26 +18,27 @@ input, select {
     border: none;
     height: 30px;
     border-radius: 3px;
-    box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);   
+    box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);
+    outline: none;
 }
 
 .but-cancel {
-    margin-left: 2em;
     width: 90px;
     padding: 7px;
     background-color: #E25260;
     border: none;
     border-radius: 3px;
     color: hsl(0, 33%, 99%);
-    box-shadow: 0 1px 3px hsl(230, 13%, 35%);
+    box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
 }
 
 .but-submit {
+    margin-left: 2em;
     width: 90px;
     padding: 7px;
     border: none;
     border-radius: 3px;
-    box-shadow: 0 1px 3px hsl(230, 13%, 35%);
+    box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
 }
 
 .add-modal-buttons :active {
