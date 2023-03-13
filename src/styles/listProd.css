@@ -1,0 +1,45 @@
+.ebutton :hover {
+    background-color: hsl(230, 13%, 35%);
+    border-color: hsl(230, 13%, 35%) !important;
+    cursor: pointer;
+    border-radius: 2px;
+    color: white;
+    box-shadow: none !important;
+}
+
+.del-button :hover {
+    cursor: pointer;
+    background-color: hsl(354, 71%, 60%);
+    border-color: hsl(354, 71%, 60%);
+    border-radius: 2px;
+    color: hsl(0, 33%, 99%);
+}
+
+/* .ebutton {
+    height: 16px;
+    width: 20px;
+} */
+
+.but-del-yes {
+    width: 70px;
+    padding: 7px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
+}
+
+.but-del-cancel {
+    margin-left: 2em;
+    width: 70px;
+    padding: 7px;
+    background-color: #E25260;
+    border: none;
+    border-radius: 3px;
+    color: hsl(0, 33%, 99%);
+    box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
+}
+
+.but-del-cancel:hover, .but-del-yes:hover {
+    cursor: pointer;
+    box-shadow: none;
+}
