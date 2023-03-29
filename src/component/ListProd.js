@@ -23,7 +23,7 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
       <TableCell className="link">
         <div className="ebutton">
           <button onClick={onOpenModal}>
-            <i class="fa fa-link" aria-hidden="true"></i>
+            <i className="fa fa-link" aria-hidden="true"></i>
           </button>
         </div>
       </TableCell>
@@ -54,7 +54,7 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
       <TableCell>
         <div className="del-button">
           <button type="button" onClick={onOpenDelModal}>
-            <i class="fa fa-trash del-icon" aria-hidden="true"></i>
+            <i className="fa fa-trash del-icon" aria-hidden="true"></i>
           </button>
         </div>
       </TableCell>

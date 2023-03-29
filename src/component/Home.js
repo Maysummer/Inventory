@@ -14,13 +14,14 @@ import ListProd from "./ListProd";
 import Edit from "./Edit";
 import { useDispatch, useSelector } from "react-redux";
 import { setProduct, delProduct, editProduct } from "../redux/inventorySlicer";
+import { store } from "../app/store";
 
 export function markAsDeleted(prodID, products) {
-  const newProd = [...products]
-  const index = products.findIndex((prod)=> prod.id === prodID)
-  const deletedProd = newProd[index]
-  deletedProd.deleted = true
-  return newProd
+  const newProd = [...products];
+  const index = products.findIndex((prod) => prod.id === prodID);
+  const deletedProd = newProd[index];
+  deletedProd.deleted = true;
+  return newProd;
 }
 
 export default function Home() {
@@ -29,17 +30,20 @@ export default function Home() {
   const dataFetchedRef = useRef(false);
 
   const getProduct = async () => {
-    const response = await fetch(
-      "https://run.mocky.io/v3/c9a84e20-f49e-4e58-8f9e-e1b9c211320e"
-    );
-    const data = await response.json();
-    const displayProducts = data.results.map((obj) => ({
-      ...obj,
-      deleted: false,
-      price: [{ cost_price: obj.cost_price, timeStamp: new Date() }],
-    }));
-    dispatch(setProduct(displayProducts));
-    console.log(displayProducts);
+    const persistedState = store.getState().inventory.products;
+    console.log(persistedState);
+    if (persistedState.length === 0) {
+      const response = await fetch(
+        "https://run.mocky.io/v3/c9a84e20-f49e-4e58-8f9e-e1b9c211320e"
+      );
+      const data = await response.json();
+      const displayProducts = data.results.map((obj) => ({
+        ...obj,
+        deleted: false,
+        price: [{ cost_price: obj.cost_price, timeStamp: new Date() }],
+      }));
+      dispatch(setProduct(displayProducts));
+    }
   };
 
   const [openAdd, setOpenAdd] = useState(false);
@@ -73,15 +77,15 @@ export default function Home() {
     insurance_unit_price: "",
     human_name: "",
   });
-  
+
   const handleEditForm = (e) => {
     e.preventDefault();
-    setEditForm(prevFormData => {
+    setEditForm((prevFormData) => {
       return {
         ...prevFormData,
-        [e.target.name]: e.target.value
-      }
-    })
+        [e.target.name]: e.target.value,
+      };
+    });
   };
 
   const handleEditFormSumbit = (e) => {
@@ -126,10 +130,7 @@ export default function Home() {
         <>
           <h2 style={{ textAlign: "center" }}>Product Inventory</h2>
           <div className="add-modal">
-            <button
-              className="add-button"
-              onClick={onOpenModalAdd}
-            >
+            <button className="add-button" onClick={onOpenModalAdd}>
               Add Product
             </button>
           </div>
@@ -217,10 +218,7 @@ export default function Home() {
               </Table>
             </TableContainer>
           </form>
-          <Add
-            onCloseModalAdd={onCloseModalAdd}
-            openAdd={openAdd}
-          />
+          <Add onCloseModalAdd={onCloseModalAdd} openAdd={openAdd} />
         </>
       ) : (
         <CircularProgress

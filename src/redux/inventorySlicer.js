@@ -43,6 +43,5 @@ export const inventorySlice = createSlice({
   },
 });
 
-export const { setProduct, delProduct, addProduct, editProduct } =
-  inventorySlice.actions;
+export const { setProduct, delProduct, addProduct, editProduct } = inventorySlice.actions;
 export default inventorySlice.reducer;
