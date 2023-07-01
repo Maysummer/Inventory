@@ -50,7 +50,7 @@ export default function Home() {
   const onOpenModalAdd = () => setOpenAdd(true);
   const onCloseModalAdd = () => setOpenAdd(false);
 
-  const [editProdID, setEditProdID] = useState(null);
+  const [editProdID, setEditProdID] = useState("");
   const handleEdit = (e, product) => {
     e.preventDefault();
     setEditProdID(product.id);
@@ -107,11 +107,11 @@ export default function Home() {
     };
     console.log(editedProduct);
     dispatch(editProduct(editedProduct));
-    setEditProdID(null);
+    setEditProdID("");
   };
 
   const handleCancel = () => {
-    setEditProdID(null);
+    setEditProdID("");
   };
 
   const handleDelete = (prodID) => {
@@ -128,7 +128,7 @@ export default function Home() {
     <div>
       {prods.length >= 1 ? (
         <>
-          <h2 style={{ textAlign: "center" }}>Product Inventory</h2>
+          <h2 style={{ textAlign: "left" }}>Product Inventory</h2>
           <div className="add-modal">
             <button className="add-button" onClick={onOpenModalAdd}>
               Add Product

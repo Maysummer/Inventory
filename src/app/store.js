@@ -25,7 +25,8 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 //create redux store with persistedReducer and a persistor with persistStore function
 
 const store = configureStore({
-  reducer: persistedReducer,
+    reducer: persistedReducer,
+    middleware: [thunk],
 });
 const persistor = persistStore(store);
 
