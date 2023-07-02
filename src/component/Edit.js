@@ -3,7 +3,7 @@ import { Drawer } from "@mui/material";
 import "../styles/edit.css";
 import "../styles/add.css";
 
-const Edit = ({
+function Edit({
   editForm,
   handleEditForm,
   handleCancel,
@@ -11,7 +11,7 @@ const Edit = ({
   onCloseEditModal,
   openEdit,
   onSubmit,
-}) => {
+}) {
   return (
     <Drawer
       variant="temporary"
@@ -118,5 +118,5 @@ const Edit = ({
       </div>
     </Drawer>
   );
-};
+}
 export default Edit;
