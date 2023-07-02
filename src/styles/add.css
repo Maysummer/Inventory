@@ -23,7 +23,7 @@ input, select {
 }
 
 .but-cancel {
-    width: 90px;
+    width: 70px;
     padding: 7px;
     background-color: #E25260;
     border: none;
@@ -34,11 +34,12 @@ input, select {
 
 .but-submit {
     margin-left: 2em;
-    width: 90px;
+    width: 70px;
     padding: 7px;
     border: none;
     border-radius: 3px;
     box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
+
 }
 
 .add-modal-buttons :active {

@@ -37,7 +37,6 @@ export const inventorySlice = createSlice({
         (product) => product.id === action.payload.id
       );
       const newEdit = EditProductInArray(index, action.payload, state.products);
-      console.log(newEdit)
       state.products = newEdit;
     },
   },
