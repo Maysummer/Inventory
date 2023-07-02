@@ -31,7 +31,6 @@ export default function Home() {
 
   const getProduct = async () => {
     const persistedState = store.getState().inventory.products;
-    console.log(persistedState);
     if (persistedState.length === 0) {
       const response = await fetch(
         "https://run.mocky.io/v3/c9a84e20-f49e-4e58-8f9e-e1b9c211320e"
@@ -51,10 +50,18 @@ export default function Home() {
   const onCloseModalAdd = () => setOpenAdd(false);
 
   const [editProdID, setEditProdID] = useState("");
+  const [editForm, setEditForm] = useState({
+    display_name: "",
+    walk_in_selling_price: "",
+    cost_price: "",
+    mutti_selling_price: "",
+    insurance_unit_price: "",
+    human_name: "",
+  });
   const handleEdit = (e, product) => {
     e.preventDefault();
     setEditProdID(product.id);
-
+    
     const formVal = {
       id: product.id,
       display_name: product.display_name,
@@ -68,15 +75,6 @@ export default function Home() {
     };
     setEditForm(formVal);
   };
-
-  const [editForm, setEditForm] = useState({
-    display_name: "",
-    walk_in_selling_price: "",
-    cost_price: "",
-    mutti_selling_price: "",
-    insurance_unit_price: "",
-    human_name: "",
-  });
 
   const handleEditForm = (e) => {
     e.preventDefault();
@@ -105,7 +103,6 @@ export default function Home() {
       ],
       deleted: false,
     };
-    console.log(editedProduct);
     dispatch(editProduct(editedProduct));
     setEditProdID("");
   };
@@ -117,6 +114,10 @@ export default function Home() {
   const handleDelete = (prodID) => {
     dispatch(delProduct(prodID));
   };
+
+  const [openEdit, setOpenEdit] = useState(false);
+  const onOpenModalEdit = () => setOpenEdit(true);
+  const onCloseEditModal = () => setOpenEdit(false);
 
   useEffect(() => {
     if (dataFetchedRef.current) return;
@@ -198,18 +199,21 @@ export default function Home() {
                     .filter((del) => del.deleted === false)
                     .map((prods, i) => (
                       <Fragment key={i}>
-                        {editProdID === prods.id ? (
+                        <ListProd
+                          product={prods}
+                          handleEdit={handleEdit}
+                          handleDelete={handleDelete}
+                          onOpenModalEdit={onOpenModalEdit}
+                        />
+                        {editProdID === prods.id && (
                           <Edit
                             editForm={editForm}
                             handleEditForm={handleEditForm}
                             handleCancel={handleCancel}
                             product={prods}
-                          />
-                        ) : (
-                          <ListProd
-                            product={prods}
-                            handleEdit={handleEdit}
-                            handleDelete={handleDelete}
+                            onCloseEditModal={onCloseEditModal}
+                            openEdit={openEdit}
+                            onSubmit={handleEditFormSumbit}
                           />
                         )}
                       </Fragment>

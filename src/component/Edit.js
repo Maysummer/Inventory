@@ -1,45 +1,122 @@
-import React from 'react'
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import link from '../link_icon.svg'
+import React from "react";
+import { Drawer } from "@mui/material";
+import "../styles/edit.css";
+import "../styles/add.css";
 
-const Edit = ({editForm, handleEditForm, handleCancel, product}) => {
-
+const Edit = ({
+  editForm,
+  handleEditForm,
+  handleCancel,
+  product,
+  onCloseEditModal,
+  openEdit,
+  onSubmit,
+}) => {
   return (
-    <TableRow>
-            <TableCell className='link'><a href='#modal'><img src={link} alt=""/></a></TableCell>
-            <TableCell className='a-left name'>
-                <input type="text" name='display_name' onChange={handleEditForm} value={editForm.display_name}></input>
-            </TableCell>
-            <TableCell className='a-mid'>-</TableCell>
-            <TableCell className='a-right price'>
-                <input type="number" name='walk_in_selling_price' onChange={handleEditForm} value={editForm.walk_in_selling_price}></input>
-            </TableCell>
-            <TableCell className='a-right price' defaultValue={product.cost_price}>
-                <input type="number" name='cost_price' onChange={handleEditForm} value={editForm.cost_price}></input>
-            </TableCell>
-            <TableCell className='a-right price'>
-                <input type="number" name='mutti_selling_price' onChange={handleEditForm} value={editForm.mutti_selling_price}></input>
-            </TableCell>
-            <TableCell className='a-right price'>
-                <input type="number" name='insurance_unit_price' onChange={handleEditForm} value={editForm.insurance_unit_price}></input>
-            </TableCell>
-            <TableCell className='a-left sold'>
-              <select defaultValue={product.unit_of_measure?.human_name} value={editForm.human_name} name="human_name" onChange={handleEditForm}>
-                <option value="">Select an option</option>
-                <option value="CONSUMABLE">CONSUMABLE</option>
-                <option value="TABLET">TABLET</option>
-                <option value="SUSPENSION">SUSPENSION</option>
-                <option value="SYRUP">SYRUP</option>
-                <option value="GEL">GEL</option>
-                <option value="INFUSION">INFUSION</option>
-            </select>
-            </TableCell>
-            <TableCell style={{display: "flex"}}>
-                <button type='submit' style={{marginRight: '1em'}}>Save</button>
-                <button type="button" onClick={handleCancel}>Cancel</button>
-            </TableCell>
-          </TableRow>
-  )
-}
-export default Edit
+    <Drawer
+      variant="temporary"
+      anchor="right"
+      open={openEdit}
+      onClose={onCloseEditModal}
+    >
+      <div className="aside">
+        <label>
+          Product Name:
+          <input
+            type="text"
+            value={editForm.display_name}
+            name="display_name"
+            onChange={handleEditForm}
+            className="add-input"
+          />
+        </label>
+        <br />
+        <label>
+          Selling Price: <br />
+          <input
+            type="number"
+            value={editForm.walk_in_selling_price}
+            name="walk_in_selling_price"
+            onChange={handleEditForm}
+            className="add-input"
+          />
+        </label>
+        <br />
+        <label>
+          Cost Price: <br />
+          <input
+            type="number"
+            value={editForm.cost_price}
+            name="cost_price"
+            onChange={handleEditForm}
+            className="add-input"
+          />
+        </label>
+        <br />
+        <label>
+          Mutti Price: <br />
+          <input
+            type="number"
+            value={editForm.mutti_selling_price}
+            name="mutti_selling_price"
+            onChange={handleEditForm}
+            className="add-input"
+          />
+        </label>
+        <br />
+        <label>
+          Insurance Price: <br />
+          <input
+            type="number"
+            value={editForm.insurance_unit_price}
+            name="insurance_unit_price"
+            onChange={handleEditForm}
+            className="add-input"
+          />
+        </label>
+        <br />
+        <label>
+          How it's sold: <br />
+          <select
+            defaultValue={product.unit_of_measure?.human_name}
+            name="editForm.human_name"
+            onChange={handleEditForm}
+            className="add-input"
+          >
+            <option value="">Select an option</option>
+            <option value="CONSUMABLE">CONSUMABLE</option>
+            <option value="TABLET">TABLET</option>
+            <option value="SUSPENSION">SUSPENSION</option>
+            <option value="SYRUP">SYRUP</option>
+            <option value="GEL">GEL</option>
+            <option value="INFUSION">INFUSION</option>
+          </select>
+        </label>
+        <br />
+        <div className="add-modal-buttons">
+          <button
+            type="button"
+            onClick={() => {
+              onCloseEditModal();
+              handleCancel();
+            }}
+            className="but-cancel"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="but-submit"
+            onClick={(e) => {
+              onSubmit(e);
+              onCloseEditModal();
+            }}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </Drawer>
+  );
+};
+export default Edit;

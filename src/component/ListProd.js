@@ -1,12 +1,17 @@
-import React, { useState}from 'react'
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import 'react-responsive-modal/styles.css';
-import { Modal } from 'react-responsive-modal';
-import Edit from './Edit'
-import '../styles/listProd.css'
+import React, { useState } from "react";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import "../styles/listProd.css";
+import drugImage from "../drug_image.jpg";
 
-export default function ListProd({ product, handleEdit, handleDelete }) {
+export default function ListProd({
+  product,
+  handleEdit,
+  handleDelete,
+  onOpenModalEdit,
+}) {
   const [open, setOpen] = useState(false);
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
@@ -14,9 +19,6 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
   const [openDel, setOpenDel] = useState(false);
   const onOpenDelModal = () => setOpenDel(true);
   const onCloseDelModal = () => setOpenDel(false);
-
-  const [openEdit, setOpenEdit] = useState(false);
-  const onCloseEditModal = () => setOpenEdit(false);
 
   return (
     <TableRow>
@@ -46,7 +48,12 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
       </TableCell>
       <TableCell>
         <div className="ebutton">
-          <button type="button" onClick={(e) => handleEdit(e, product)}>
+          <button
+            onClick={(e) => {
+              handleEdit(e, product);
+              onOpenModalEdit();
+            }}
+          >
             <i className="fa fa-pencil" aria-hidden="true"></i>
           </button>
         </div>
@@ -73,37 +80,36 @@ export default function ListProd({ product, handleEdit, handleDelete }) {
           >
             <div>
               <p style={{ fontSize: "1em", fontWeight: "bolder" }}>
-                Display Name
+                Drug Image
               </p>
-              <p>{product.display_name}</p>
+              <img src={drugImage} alt="" />
             </div>
           </div>
         </div>
       </Modal>
 
-      {/* for putting edit in a modal */}
-      <Modal open={openEdit} onClose={onCloseEditModal} center>
-        <Edit />
-      </Modal>
-
-      <Modal open={openDel} onClose={onCloseDelModal} center>
-        <p style={{ marginTop: "2em" }}>
-          Are you sure you want to delete this product?
-        </p>
-        <div style={{ float: "right" }}>
-          <button
-            className='but-del-yes'
-            style={{ marginLeft: "1em" }}
-            onClick={() => {
-              handleDelete(product.id);
-              onCloseDelModal();
-            }}
-          >
-            Yes
-          </button>
-          <button className='but-del-cancel' onClick={onCloseDelModal}>Cancel</button>
-        </div>
-      </Modal>
+      {openDel && (
+        <Modal open={openDel} onClose={onCloseDelModal} center>
+          <p style={{ marginTop: "2em" }}>
+            Are you sure you want to delete this product?
+          </p>
+          <div style={{ float: "right" }}>
+            <button
+              className="but-del-yes"
+              style={{ marginLeft: "1em" }}
+              onClick={() => {
+                handleDelete(product.id);
+                onCloseDelModal();
+              }}
+            >
+              Delete
+            </button>
+            <button className="but-del-cancel" onClick={onCloseDelModal}>
+              Cancel
+            </button>
+          </div>
+        </Modal>
+      )}
     </TableRow>
   );
 }
