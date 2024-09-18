@@ -1,5 +1,4 @@
-// import { markAsDeleted } from "../lib/markAsDelete";
-import {markAsDeleted} from "../component/Home"
+import { markAsDeleted } from "../redux/inventorySlicer";
 
 describe("Deleting products", function (){
     it("should mark a selected product as deleted", function () {

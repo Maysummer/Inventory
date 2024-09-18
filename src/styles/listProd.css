@@ -1,41 +1,49 @@
 .ebutton :hover {
-    background-color: hsl(230, 13%, 35%);
-    border-color: hsl(230, 13%, 35%) !important;
-    cursor: pointer;
-    border-radius: 2px;
-    color: white;
-    box-shadow: none !important;
+  background-color: hsl(230, 13%, 35%);
+  border-color: hsl(230, 13%, 35%) !important;
+  cursor: pointer;
+  border-radius: 2px;
+  color: white;
+  box-shadow: none !important;
 }
 
 .del-button :hover {
-    cursor: pointer;
-    background-color: hsl(354, 71%, 60%);
-    border-color: hsl(354, 71%, 60%);
-    border-radius: 2px;
-    color: hsl(0, 33%, 99%);
+  cursor: pointer;
+  background-color: hsl(354, 71%, 60%);
+  border-color: hsl(354, 71%, 60%);
+  border-radius: 2px;
+  color: hsl(0, 33%, 99%);
 }
 
 .but-del-yes {
-    width: 70px;
-    padding: 7px;
-    background-color: #E25260;
-    color: hsl(0, 33%, 99%);
-    border: none;
-    border-radius: 3px;
-    box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
+  width: 70px;
+  padding: 7px;
+  background-color: #e25260;
+  color: hsl(0, 33%, 99%);
+  border: none;
+  border-radius: 3px;
+  box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
 }
 
 .but-del-cancel {
-    margin-left: 2em;
-    width: 70px;
-    padding: 7px;
-    border: none;
-    border-radius: 3px;
-    
-    box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
+  margin-left: 2em;
+  width: 70px;
+  padding: 7px;
+  border: none;
+  border-radius: 3px;
+
+  box-shadow: 1px 1px 4px -2px hsl(230, 13%, 35%);
 }
 
-.but-del-cancel:hover, .but-del-yes:hover {
-    cursor: pointer;
-    box-shadow: none;
+.but-del-cancel:hover,
+.but-del-yes:hover {
+  cursor: pointer;
+  box-shadow: none;
+}
+.react-responsive-modal-overlay {
+  background: rgb(0 0 0 / 8%);
+}
+
+.react-responsive-modal-modal {
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.05);
 }

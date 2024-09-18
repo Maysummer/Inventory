@@ -1,54 +1,45 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import "../styles/home.css";
 import "react-responsive-modal/styles.css";
 import Add from "./Add";
 import { CircularProgress } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import ListProd from "./ListProd";
-import Edit from "./Edit";
 import { useDispatch, useSelector } from "react-redux";
-import { setProduct, delProduct, editProduct } from "../redux/inventorySlicer";
+import { setProduct, editProduct } from "../redux/inventorySlicer";
 import { store } from "../app/store";
-
-export function markAsDeleted(prodID, products) {
-  const newProd = [...products];
-  const index = products.findIndex((prod) => prod.id === prodID);
-  const deletedProd = newProd[index];
-  deletedProd.deleted = true;
-  return newProd;
-}
+import productsData from "./data/products";
 
 export default function Home() {
   const dispatch = useDispatch();
   const prods = useSelector((state) => state.inventory.products);
   const dataFetchedRef = useRef(false);
 
-  const getProduct = async () => {
+  const getProduct = useCallback(async () => {
     const persistedState = store.getState().inventory.products;
     if (persistedState.length === 0) {
-      const response = await fetch(
-        "https://run.mocky.io/v3/c9a84e20-f49e-4e58-8f9e-e1b9c211320e"
-      );
-      const data = await response.json();
-      const displayProducts = data.results.map((obj) => ({
+      // const response = await fetch("https://localhost:7133/api/Drugs");
+      // const data = await response.json();
+      const displayProducts = productsData.map((obj) => ({
         ...obj,
         deleted: false,
         price: [{ cost_price: obj.cost_price, timeStamp: new Date() }],
       }));
       dispatch(setProduct(displayProducts));
     }
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    getProduct();
+  }, [getProduct]);
 
   const [openAdd, setOpenAdd] = useState(false);
-  const onOpenModalAdd = () => setOpenAdd(true);
-  const onCloseModalAdd = () => setOpenAdd(false);
-
   const [editProdID, setEditProdID] = useState("");
   const [editForm, setEditForm] = useState({
     display_name: "",
@@ -58,10 +49,15 @@ export default function Home() {
     insurance_unit_price: "",
     human_name: "",
   });
+
+  const onOpenModalAdd = () => setOpenAdd(true);
+  const onCloseModalAdd = () => setOpenAdd(false);
+  const onOpenModalEdit = () => setOpenEdit(true);
+  const onCloseEditModal = () => setOpenEdit(false);
+
   const handleEdit = (e, product) => {
     e.preventDefault();
     setEditProdID(product.id);
-    
     const formVal = {
       id: product.id,
       display_name: product.display_name,
@@ -86,7 +82,7 @@ export default function Home() {
     });
   };
 
-  const handleEditFormSumbit = (e) => {
+  const handleEditFormSubmit = (e) => {
     e.preventDefault();
     const index = prods.findIndex((product) => product.id === editProdID);
     const editedProduct = {
@@ -107,24 +103,10 @@ export default function Home() {
     setEditProdID("");
   };
 
-  const handleCancel = () => {
-    setEditProdID("");
-  };
-
-  const handleDelete = (prodID) => {
-    dispatch(delProduct(prodID));
-  };
+  const handleCancel = () => setEditProdID("");
 
   const [openEdit, setOpenEdit] = useState(false);
-  const onOpenModalEdit = () => setOpenEdit(true);
-  const onCloseEditModal = () => setOpenEdit(false);
-
-  useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-    getProduct();
-  }, []);
-
+console.log({prods})
   return (
     <div>
       {prods.length >= 1 ? (
@@ -135,92 +117,19 @@ export default function Home() {
               Add Product
             </button>
           </div>
-          <form onSubmit={handleEditFormSumbit}>
-            <TableContainer component={Paper} className="table">
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow className="table-header">
-                    <TableCell className="link-row"></TableCell>
-                    <TableCell
-                      className="a-left name"
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      Product Name
-                    </TableCell>
-                    <TableCell className="a-mid"></TableCell>
-                    <TableCell
-                      className="a-right price"
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      Selling Price (GHS)
-                    </TableCell>
-                    <TableCell
-                      className="a-right price"
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      Cost Price (GHS)
-                    </TableCell>
-                    <TableCell
-                      className="a-right price"
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      Mutti Price (GHS)
-                    </TableCell>
-                    <TableCell
-                      className="a-right price"
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      Insurance Price (GHS)
-                    </TableCell>
-                    <TableCell
-                      className="a-left sold"
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      How it's sold
-                    </TableCell>
-                    <TableCell className="icon-edit"></TableCell>
-                    <TableCell className="icon-del"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody className="tbody">
-                  {prods
-                    .filter((del) => del.deleted === false)
-                    .map((prods, i) => (
-                      <Fragment key={i}>
-                        <ListProd
-                          product={prods}
-                          handleEdit={handleEdit}
-                          handleDelete={handleDelete}
-                          onOpenModalEdit={onOpenModalEdit}
-                        />
-                        {editProdID === prods.id && (
-                          <Edit
-                            editForm={editForm}
-                            handleEditForm={handleEditForm}
-                            handleCancel={handleCancel}
-                            product={prods}
-                            onCloseEditModal={onCloseEditModal}
-                            openEdit={openEdit}
-                            onSubmit={handleEditFormSumbit}
-                          />
-                        )}
-                      </Fragment>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+          <form onSubmit={handleEditFormSubmit}>
+            <ListProd
+              prods={prods}
+              editProdID={editProdID}
+              editForm={editForm}
+              handleEditForm={handleEditForm}
+              handleCancel={handleCancel}
+              onCloseEditModal={onCloseEditModal}
+              openEdit={openEdit}
+              handleEditFormSubmit={handleEditFormSubmit}
+              handleEdit={handleEdit}
+              onOpenModalEdit={onOpenModalEdit}
+            />
           </form>
           <Add onCloseModalAdd={onCloseModalAdd} openAdd={openAdd} />
         </>

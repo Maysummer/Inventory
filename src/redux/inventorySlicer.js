@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { markAsDeleted } from "../component/Home";
 import EditProductInArray from "../lib/EditProduct";
+
+export function markAsDeleted(prodID, products) {
+  const newProd = [...products];
+  const index = products.findIndex((prod) => prod.id === prodID);
+  const deletedProd = newProd[index];
+  deletedProd.deleted = true;
+  return newProd;
+}
 
 export const inventorySlice = createSlice({
   name: "inventory",

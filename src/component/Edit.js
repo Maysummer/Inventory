@@ -79,7 +79,7 @@ function Edit({
           How it's sold: <br />
           <select
             defaultValue={product.unit_of_measure?.human_name}
-            name="editForm.human_name"
+            name="human_name"
             onChange={handleEditForm}
             className="add-input"
           >
