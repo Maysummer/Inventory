@@ -40,10 +40,3 @@
   cursor: pointer;
   box-shadow: none;
 }
-.react-responsive-modal-overlay {
-  background: rgb(0 0 0 / 8%);
-}
-
-.react-responsive-modal-modal {
-  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.05);
-}

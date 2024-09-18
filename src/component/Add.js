@@ -7,7 +7,7 @@ import { addProduct } from "../redux/inventorySlicer";
 
 export default function Add({ onCloseModalAdd, openAdd }) {
   const dispatch = useDispatch();
-
+  const [errorMessage, setErrorMessage] = useState("");
   const [newFormData, setNewFormData] = useState({
     display_name: "",
     walk_in_selling_price: "",
@@ -29,7 +29,14 @@ export default function Add({ onCloseModalAdd, openAdd }) {
 
   const transferValue = (e) => {
     e.preventDefault();
-    if (newFormData.display_name) {
+    if (
+      newFormData.display_name &&
+      newFormData.walk_in_selling_price &&
+      newFormData.cost_price &&
+      newFormData.mutti_selling_price &&
+      newFormData.insurance_unit_price &&
+      newFormData.means
+    ) {
       dispatch(
         addProduct({
           display_name: newFormData.display_name,
@@ -40,12 +47,16 @@ export default function Add({ onCloseModalAdd, openAdd }) {
           unit_of_measure: { human_name: newFormData.means },
         })
       );
+      clearState();
+      onCloseModalAdd();
+    } else {
+      setErrorMessage("Please fill in all fields.");
     }
-    clearState();
   };
 
   const clearState = () => {
     setNewFormData({});
+    setErrorMessage("");
   };
 
   return (
@@ -115,7 +126,7 @@ export default function Add({ onCloseModalAdd, openAdd }) {
               onChange={handleChange}
               className="add-input"
             >
-              <option>Select an option</option>
+              <option value="">Select an option</option>
               <option>CONSUMABLE</option>
               <option>TABLET</option>
               <option>SUSPENSION</option>
@@ -125,17 +136,18 @@ export default function Add({ onCloseModalAdd, openAdd }) {
             </select>
           </label>
           <br />
-          <div className="add-modal-buttons" >
+
+          {errorMessage && (
+            <div className="error-message" style={{ color: "red" }}>
+              {errorMessage}
+            </div>
+          )}
+
+          <div className="add-modal-buttons">
             <button onClick={onCloseModalAdd} className="but-cancel">
               Cancel
             </button>
-            <button
-              className="but-submit"
-              onClick={(e) => {
-                transferValue(e);
-                onCloseModalAdd();
-              }}
-            >
+            <button className="but-submit" onClick={transferValue}>
               Submit
             </button>
           </div>

@@ -89,3 +89,10 @@ tr:nth-child(even) {
 .add-modal :active {
     box-shadow: none;
 }
+
+.progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: hsl(230, 13%, 35%);
+  }  
